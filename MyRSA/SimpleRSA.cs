@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using System.Security.Cryptography;
+using System.Collections.Generic;
 
 namespace MyRSA
 {
@@ -10,13 +11,15 @@ namespace MyRSA
     class SimpleRSA
     {
         private BigInteger p = 0, q = 0, e = 0, n = 0, gcd = 0, x = 0, y = 0;
-        public readonly BigInteger[] PublicKey, PrivateKey;
+
+        Dictionary<string, BigInteger> publicKey = new Dictionary<string, BigInteger>();
+        Dictionary<string, BigInteger> privateKey = new Dictionary<string, BigInteger>();
 
         /// <summary>
         /// Конструктор класса SimpleRSA.
         /// </summary>
         /// <param name="size">Размер p и q в битах.</param>
-        public SimpleRSA(int size = 32)
+        public SimpleRSA(uint size = 32)
         {
             /* Генерация p и q */
             do
@@ -54,10 +57,12 @@ namespace MyRSA
             x = (x % EulerFunc + EulerFunc) % EulerFunc; // d
             
             /*Генерация закрытого ключа */
-            PrivateKey = new BigInteger[] { x, n };
+            privateKey["d"] = x;
+            privateKey["n"] = n;
 
             /* Генерация открытого ключа */
-            PublicKey = new BigInteger[] { e, n };
+            publicKey["e"] = e;
+            publicKey["n"] = n;
 
         }
 
@@ -66,9 +71,14 @@ namespace MyRSA
         /// </summary>
         /// <param name="message">Сообщение, которое нужно подписать.</param>
         /// <returns>Массив, где [0] - сообщение, а [1] - подпись.</returns>
-        public BigInteger[] GetDigitalSignature(BigInteger message)
+        public Dictionary<string, BigInteger> GetDigitalSignature(BigInteger message)
         {
-            return new BigInteger[] { message, ModPower(message, PrivateKey[0], PrivateKey[1]) };
+            Dictionary<string, BigInteger> signedMessage = new Dictionary<string, BigInteger>();
+
+            signedMessage["message"] = message;
+            signedMessage["signature"] = ModPower(message, privateKey["d"], privateKey["n"]);
+
+            return signedMessage;
         }
 
         /// <summary>
@@ -79,7 +89,7 @@ namespace MyRSA
         /// <returns>true - подпись прошла проверку, false - не прошла.</returns>
         public bool CheckDigitalSignature(BigInteger message, BigInteger signature)
         {
-            if (ModPower(signature, PublicKey[0], PublicKey[1]) == message)
+            if (ModPower(signature, publicKey["e"], publicKey["n"]) == message)
                 return true;
 
             return false;
@@ -239,7 +249,7 @@ namespace MyRSA
         /// <param name="k">Число раундов.</param>
         /// <param name="size">Размер проверяемого числа.</param>
         /// <returns></returns>
-        private bool Miller(BigInteger number, double k, long size)
+        private bool Miller(BigInteger number, double k, uint size)
         {
             //  number должен быть больше 2 и не должен быть четным
             if (number < 3 || number % 2 == 0)
