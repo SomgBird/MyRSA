@@ -13,18 +13,27 @@ namespace MyRSA
     {
         static void Main(string[] args)
         {
-            SimpleRSA rsa = new SimpleRSA(1);
 
-            BigInteger n = 0;
+            SimpleRSA rsa = new SimpleRSA(256);
 
-            // тест генерации простых чисел
-            do {
-                n = rsa.GetRandomBigInteger(16);
-                Console.Write(".");
+            BigInteger[] test = rsa.GetDigitalSignature(218739);
 
-            } while (!rsa.CheckPrime(n));
+            Console.WriteLine("msg: " + test[0]);
+            Console.WriteLine("sig: " + test[1]);
 
-            Console.WriteLine(n);
+            Console.WriteLine();
+
+            if (rsa.CheckDigitalSignature(test[0], test[1]))
+                Console.WriteLine("Проверка пройдена!");
+            else
+                Console.WriteLine("Проверка не пройдена!");
+
+
+            if (rsa.CheckDigitalSignature(test[0] - 1, test[1]))
+                Console.WriteLine("Проверка пройдена!");
+            else
+                Console.WriteLine("Проверка не пройдена!");
+
             Console.ReadKey();
         }
     }
