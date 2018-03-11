@@ -12,8 +12,8 @@ namespace MyRSA
     {
         private BigInteger p = 0, q = 0, e = 0, n = 0, gcd = 0, x = 0, y = 0;
 
-        Dictionary<string, BigInteger> publicKey = new Dictionary<string, BigInteger>();
-        Dictionary<string, BigInteger> privateKey = new Dictionary<string, BigInteger>();
+        private Dictionary<string, BigInteger> publicKey = new Dictionary<string, BigInteger>();
+        private Dictionary<string, BigInteger> privateKey = new Dictionary<string, BigInteger>();
 
         /// <summary>
         /// Конструктор класса SimpleRSA.
