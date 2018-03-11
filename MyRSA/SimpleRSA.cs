@@ -174,7 +174,7 @@ namespace MyRSA
         /// </summary>
         /// <param name="size">Размер получаемоего числа в битах.</param>
         /// <returns>Простое случайное BigInteger число</returns>
-        private BigInteger GetRandomBigInteger(long size)
+        private BigInteger GetRandomBigInteger(uint size)
         {
             // Получение случайного числа
             var rng = new RNGCryptoServiceProvider();
