@@ -67,7 +67,7 @@ namespace MyRSA
             Console.WriteLine();
 
             // Проверка подпси измененного сообщения
-            Dictionary<string, BigInteger> brokenMessage = signedMessage;
+            Dictionary<string, BigInteger> brokenMessage = new Dictionary<string, BigInteger>(signedMessage);
             brokenMessage["message"] += 1;
 
             Console.WriteLine("Проверка подписанного сообщения после измения сообщения:");
@@ -76,8 +76,8 @@ namespace MyRSA
             Console.WriteLine();
 
             // Проверка подписи сообщения сподменой подписи
-            Dictionary<string, BigInteger> brokenSignature = signedMessage;
-            brokenMessage["signature"] += 1;
+            Dictionary<string, BigInteger> brokenSignature = new Dictionary<string, BigInteger>(signedMessage);
+            brokenSignature["signature"] += 1;
 
             Console.WriteLine("Проверка подписанного сообщения после изменения подписи:");
             PrintSignedMessage(brokenSignature);
