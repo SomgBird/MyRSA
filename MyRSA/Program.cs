@@ -52,6 +52,12 @@ namespace MyRSA
                 return;
             }
 
+            if (size < 8)
+            {
+                Console.WriteLine("Размер p и q должен быть не меньше 8 бит!");
+                return;
+            }
+
             Console.WriteLine("Размер p и q: " + size + " бит.\n");
 
             // Генерируем ключи RSA

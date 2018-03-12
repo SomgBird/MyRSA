@@ -63,7 +63,6 @@ namespace MyRSA
             /* Генерация открытого ключа */
             publicKey["e"] = e;
             publicKey["n"] = n;
-
         }
 
         /// <summary>
@@ -144,9 +143,7 @@ namespace MyRSA
         /// <returns>Число ферма</returns>
         private BigInteger FermatNumber(BigInteger power)
         {
-            BigInteger Fermat = BigPow(2, BigPow(2, power)) + 1;
-
-            return Fermat;
+            return BigPow(2, BigPow(2, power)) + 1;
         }
 
         /// <summary>
@@ -170,13 +167,12 @@ namespace MyRSA
         }
 
         /// <summary>
-        /// Получает простое случайное BigInteger число.
+        /// Получает случайное BigInteger число.
         /// </summary>
         /// <param name="size">Размер получаемоего числа в битах.</param>
-        /// <returns>Простое случайное BigInteger число</returns>
+        /// <returns>Cлучайное BigInteger число</returns>
         private BigInteger GetRandomBigInteger(uint size)
         {
-            // Получение случайного числа
             var rng = new RNGCryptoServiceProvider();
             byte[] bytes = new byte[size / 8];
 
@@ -187,9 +183,7 @@ namespace MyRSA
             bytes[bytes.Length - 1] &= 0x7F;
 
             // Перевод массива в тип BigInteger
-            BigInteger randomBigInt = new BigInteger(bytes);
-
-            return randomBigInt;
+            return new BigInteger(bytes);
         }
 
         /// <summary>
